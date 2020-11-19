@@ -5,10 +5,10 @@ from os.path import isfile, join
 def read_file(path):
     f = open(path, 'r+')
     lines = f.readlines()
-
     f.close()
     return lines
 
+# function that creates list of ImgBig objects
 def processing_lines(lines):
     images = []
     curr_ind = 0
@@ -21,25 +21,9 @@ def processing_lines(lines):
             images.append(ImgBig(filename,numfaces,lines[curr_ind:curr_ind+numfaces]))
             curr_ind += numfaces
         else:
+            # when number of bounding boxes equal 0
             curr_ind += 3
     return images
 
-def file_in_image_list(images, name):
-    for image in images:
-        if image.filename == name:
-            return True
-    return False
 
-def processing_files_in_dir(maindir,images):
-        negimages = []
-        dirs = os.listdir(maindir)  # read the contents of dir
-        for dir in dirs:  # loop over those contents
 
-            listfiles = os.listdir(maindir + '\\' + dir)
-            for filename in listfiles:
-                fullname = dir +r"/" +filename
-                if not file_in_image_list(images,fullname):
-                    negimages.append(fullname)
-                    if len(negimages)==1000:
-                        return negimages
-        return negimages
